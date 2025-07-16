@@ -14,9 +14,15 @@ class Category(models.Model):
             self.slug = slugify(self.name)
         super().save(*args, **kwargs)
 
+    def __str__(self):
+        return f"{self.name}"
+
 
 class Size(models.Model):
     name = models.CharField(max_length=20)
+
+    def __str__(self):
+        return f"{self.name}"
 
 
 class ProductSize(models.Model):
@@ -27,7 +33,7 @@ class ProductSize(models.Model):
     stock = models.PositiveBigIntegerField(db_default=0)
 
     def __str__(self):
-        return f"{self.name} ({self.stock} in stock) for {self.product.name}"
+        return f"{self.size.name} ({self.stock} in stock) for {self.product.name}"
 
 
 class Product(models.Model):
@@ -57,3 +63,7 @@ class ProductImage(models.Model):
         Product, on_delete=models.CASCADE, related_name="images"
     )
     image = models.ImageField(upload_to="products/extra/")
+
+    def __str__(self):
+        return f"Image {self.id} for {self.product.name}"
+# ENFANT RICHES DEPRIMES
